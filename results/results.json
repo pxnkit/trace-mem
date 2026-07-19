@@ -1,444 +1,250 @@
 {
   "meta": {
-    "name": "CascadeLens",
+    "name": "TRACE-Mem",
     "seed": 42,
-    "training_traces": 9360,
-    "test_scenarios": 36,
-    "test_runs_per_scenario": 800,
-    "domain": "synthetic insurance-like claim workflows",
-    "scope_note": "Methodological PoC only; no customer data and no claim about field performance."
+    "training_traces": 5000,
+    "evaluation_traces": 1500,
+    "risk_threshold": 0.55,
+    "workload": "persistent claims agent with changing customer state"
   },
   "metrics": {
-    "baseline_mae": 0.2403,
-    "topology_model_mae": 0.0437,
-    "relative_mae_reduction": 0.818,
-    "baseline_brier": 0.06615,
-    "topology_model_brier": 0.003
+    "baseline_success": 0.7353,
+    "gated_success": 0.998,
+    "absolute_success_gain": 0.2627,
+    "flat_risk_brier": 0.08887,
+    "interaction_risk_brier": 0.01969,
+    "verification_rate": 0.29,
+    "failure_recall": 0.9924
   },
   "scenarios": [
     {
-      "workflow": "linear",
-      "label": "Linear claim review",
-      "complexity": 0,
-      "stress": 0.15,
-      "actual": 0.845,
-      "topology_model": 0.9029,
-      "independence_baseline": 0.7743
+      "case_id": "CLM-1042",
+      "runs": 500,
+      "baseline_success": 0.72,
+      "gated_success": 1.0,
+      "verification_rate": 0.282
     },
     {
-      "workflow": "linear",
-      "label": "Linear claim review",
-      "complexity": 0,
-      "stress": 0.6,
-      "actual": 0.775,
-      "topology_model": 0.8554,
-      "independence_baseline": 0.5943
+      "case_id": "CLM-2088",
+      "runs": 500,
+      "baseline_success": 0.778,
+      "gated_success": 0.994,
+      "verification_rate": 0.294
     },
     {
-      "workflow": "linear",
-      "label": "Linear claim review",
-      "complexity": 0,
-      "stress": 0.95,
-      "actual": 0.6687,
-      "topology_model": 0.7366,
-      "independence_baseline": 0.4643
-    },
-    {
-      "workflow": "linear",
-      "label": "Linear claim review",
-      "complexity": 1,
-      "stress": 0.15,
-      "actual": 0.785,
-      "topology_model": 0.842,
-      "independence_baseline": 0.6642
-    },
-    {
-      "workflow": "linear",
-      "label": "Linear claim review",
-      "complexity": 1,
-      "stress": 0.6,
-      "actual": 0.6787,
-      "topology_model": 0.7594,
-      "independence_baseline": 0.5273
-    },
-    {
-      "workflow": "linear",
-      "label": "Linear claim review",
-      "complexity": 1,
-      "stress": 0.95,
-      "actual": 0.5962,
-      "topology_model": 0.6837,
-      "independence_baseline": 0.37
-    },
-    {
-      "workflow": "linear",
-      "label": "Linear claim review",
-      "complexity": 2,
-      "stress": 0.15,
-      "actual": 0.7125,
-      "topology_model": 0.7937,
-      "independence_baseline": 0.5894
-    },
-    {
-      "workflow": "linear",
-      "label": "Linear claim review",
-      "complexity": 2,
-      "stress": 0.6,
-      "actual": 0.5938,
-      "topology_model": 0.7106,
-      "independence_baseline": 0.4303
-    },
-    {
-      "workflow": "linear",
-      "label": "Linear claim review",
-      "complexity": 2,
-      "stress": 0.95,
-      "actual": 0.5112,
-      "topology_model": 0.6429,
-      "independence_baseline": 0.3202
-    },
-    {
-      "workflow": "branch",
-      "label": "Branch-and-merge review",
-      "complexity": 0,
-      "stress": 0.15,
-      "actual": 0.8425,
-      "topology_model": 0.8877,
-      "independence_baseline": 0.7345
-    },
-    {
-      "workflow": "branch",
-      "label": "Branch-and-merge review",
-      "complexity": 0,
-      "stress": 0.6,
-      "actual": 0.74,
-      "topology_model": 0.8371,
-      "independence_baseline": 0.5466
-    },
-    {
-      "workflow": "branch",
-      "label": "Branch-and-merge review",
-      "complexity": 0,
-      "stress": 0.95,
-      "actual": 0.6725,
-      "topology_model": 0.7194,
-      "independence_baseline": 0.4077
-    },
-    {
-      "workflow": "branch",
-      "label": "Branch-and-merge review",
-      "complexity": 1,
-      "stress": 0.15,
-      "actual": 0.7875,
-      "topology_model": 0.8094,
-      "independence_baseline": 0.6056
-    },
-    {
-      "workflow": "branch",
-      "label": "Branch-and-merge review",
-      "complexity": 1,
-      "stress": 0.6,
-      "actual": 0.7163,
-      "topology_model": 0.7214,
-      "independence_baseline": 0.4672
-    },
-    {
-      "workflow": "branch",
-      "label": "Branch-and-merge review",
-      "complexity": 1,
-      "stress": 0.95,
-      "actual": 0.6512,
-      "topology_model": 0.6349,
-      "independence_baseline": 0.3119
-    },
-    {
-      "workflow": "branch",
-      "label": "Branch-and-merge review",
-      "complexity": 2,
-      "stress": 0.15,
-      "actual": 0.7063,
-      "topology_model": 0.7403,
-      "independence_baseline": 0.5305
-    },
-    {
-      "workflow": "branch",
-      "label": "Branch-and-merge review",
-      "complexity": 2,
-      "stress": 0.6,
-      "actual": 0.5988,
-      "topology_model": 0.652,
-      "independence_baseline": 0.3664
-    },
-    {
-      "workflow": "branch",
-      "label": "Branch-and-merge review",
-      "complexity": 2,
-      "stress": 0.95,
-      "actual": 0.5737,
-      "topology_model": 0.5597,
-      "independence_baseline": 0.2645
-    },
-    {
-      "workflow": "recoverable",
-      "label": "Recovery-aware review",
-      "complexity": 0,
-      "stress": 0.15,
-      "actual": 0.9225,
-      "topology_model": 0.916,
-      "independence_baseline": 0.8162
-    },
-    {
-      "workflow": "recoverable",
-      "label": "Recovery-aware review",
-      "complexity": 0,
-      "stress": 0.6,
-      "actual": 0.8688,
-      "topology_model": 0.866,
-      "independence_baseline": 0.6462
-    },
-    {
-      "workflow": "recoverable",
-      "label": "Recovery-aware review",
-      "complexity": 0,
-      "stress": 0.95,
-      "actual": 0.8087,
-      "topology_model": 0.7657,
-      "independence_baseline": 0.5289
-    },
-    {
-      "workflow": "recoverable",
-      "label": "Recovery-aware review",
-      "complexity": 1,
-      "stress": 0.15,
-      "actual": 0.885,
-      "topology_model": 0.856,
-      "independence_baseline": 0.7285
-    },
-    {
-      "workflow": "recoverable",
-      "label": "Recovery-aware review",
-      "complexity": 1,
-      "stress": 0.6,
-      "actual": 0.8187,
-      "topology_model": 0.7906,
-      "independence_baseline": 0.595
-    },
-    {
-      "workflow": "recoverable",
-      "label": "Recovery-aware review",
-      "complexity": 1,
-      "stress": 0.95,
-      "actual": 0.7675,
-      "topology_model": 0.696,
-      "independence_baseline": 0.439
-    },
-    {
-      "workflow": "recoverable",
-      "label": "Recovery-aware review",
-      "complexity": 2,
-      "stress": 0.15,
-      "actual": 0.8225,
-      "topology_model": 0.8211,
-      "independence_baseline": 0.6547
-    },
-    {
-      "workflow": "recoverable",
-      "label": "Recovery-aware review",
-      "complexity": 2,
-      "stress": 0.6,
-      "actual": 0.7775,
-      "topology_model": 0.7249,
-      "independence_baseline": 0.5055
-    },
-    {
-      "workflow": "recoverable",
-      "label": "Recovery-aware review",
-      "complexity": 2,
-      "stress": 0.95,
-      "actual": 0.6837,
-      "topology_model": 0.6471,
-      "independence_baseline": 0.3877
-    },
-    {
-      "workflow": "long_horizon",
-      "label": "Long-horizon renewal review",
-      "complexity": 0,
-      "stress": 0.15,
-      "actual": 0.8675,
-      "topology_model": 0.87,
-      "independence_baseline": 0.6505
-    },
-    {
-      "workflow": "long_horizon",
-      "label": "Long-horizon renewal review",
-      "complexity": 0,
-      "stress": 0.6,
-      "actual": 0.7712,
-      "topology_model": 0.7929,
-      "independence_baseline": 0.4008
-    },
-    {
-      "workflow": "long_horizon",
-      "label": "Long-horizon renewal review",
-      "complexity": 0,
-      "stress": 0.95,
-      "actual": 0.6538,
-      "topology_model": 0.6434,
-      "independence_baseline": 0.2658
-    },
-    {
-      "workflow": "long_horizon",
-      "label": "Long-horizon renewal review",
-      "complexity": 1,
-      "stress": 0.15,
-      "actual": 0.805,
-      "topology_model": 0.7837,
-      "independence_baseline": 0.5136
-    },
-    {
-      "workflow": "long_horizon",
-      "label": "Long-horizon renewal review",
-      "complexity": 1,
-      "stress": 0.6,
-      "actual": 0.715,
-      "topology_model": 0.6674,
-      "independence_baseline": 0.3445
-    },
-    {
-      "workflow": "long_horizon",
-      "label": "Long-horizon renewal review",
-      "complexity": 1,
-      "stress": 0.95,
-      "actual": 0.615,
-      "topology_model": 0.5757,
-      "independence_baseline": 0.1824
-    },
-    {
-      "workflow": "long_horizon",
-      "label": "Long-horizon renewal review",
-      "complexity": 2,
-      "stress": 0.15,
-      "actual": 0.7063,
-      "topology_model": 0.7051,
-      "independence_baseline": 0.4186
-    },
-    {
-      "workflow": "long_horizon",
-      "label": "Long-horizon renewal review",
-      "complexity": 2,
-      "stress": 0.6,
-      "actual": 0.5975,
-      "topology_model": 0.6209,
-      "independence_baseline": 0.2428
-    },
-    {
-      "workflow": "long_horizon",
-      "label": "Long-horizon renewal review",
-      "complexity": 2,
-      "stress": 0.95,
-      "actual": 0.5437,
-      "topology_model": 0.5031,
-      "independence_baseline": 0.1427
+      "case_id": "CLM-3315",
+      "runs": 500,
+      "baseline_success": 0.708,
+      "gated_success": 1.0,
+      "verification_rate": 0.294
     }
   ],
-  "interventions": [
+  "reliability_map": [
     {
-      "checkpoint": "none",
-      "label": "No checkpoint",
-      "cost_units": 0.0,
-      "predicted_success": 0.7392,
-      "actual_success": 0.6959
+      "left": "consolidation",
+      "right": "retrieval",
+      "failure_neither": 0.2153,
+      "failure_left": 0.207,
+      "failure_right": 0.3369,
+      "failure_both": 1.0,
+      "interaction_lift": 0.6714,
+      "joint_samples": 264
     },
     {
-      "checkpoint": "retrieval",
-      "label": "Verify retrieval",
-      "cost_units": 1.0,
-      "predicted_success": 0.7441,
-      "actual_success": 0.7059
+      "left": "write",
+      "right": "consolidation",
+      "failure_neither": 0.1758,
+      "failure_left": 0.6524,
+      "failure_right": 0.4206,
+      "failure_both": 0.8506,
+      "interaction_lift": -0.0467,
+      "joint_samples": 87
     },
     {
-      "checkpoint": "tool",
-      "label": "Verify tool result",
-      "cost_units": 1.0,
-      "predicted_success": 0.7422,
-      "actual_success": 0.7232
+      "left": "write",
+      "right": "retrieval",
+      "failure_neither": 0.1752,
+      "failure_left": 0.6529,
+      "failure_right": 0.4764,
+      "failure_both": 0.7238,
+      "interaction_lift": -0.2302,
+      "joint_samples": 239
     },
     {
-      "checkpoint": "both",
-      "label": "Verify retrieval + tool",
-      "cost_units": 2.0,
-      "predicted_success": 0.757,
-      "actual_success": 0.7277
+      "left": "consolidation",
+      "right": "reasoning",
+      "failure_neither": 0.1435,
+      "failure_left": 0.4129,
+      "failure_right": 0.9499,
+      "failure_both": 0.9868,
+      "interaction_lift": -0.2325,
+      "joint_samples": 76
+    },
+    {
+      "left": "consolidation",
+      "right": "tool",
+      "failure_neither": 0.1444,
+      "failure_left": 0.4155,
+      "failure_right": 1.0,
+      "failure_both": 1.0,
+      "interaction_lift": -0.2711,
+      "joint_samples": 71
+    },
+    {
+      "left": "retrieval",
+      "right": "tool",
+      "failure_neither": 0.1252,
+      "failure_left": 0.5026,
+      "failure_right": 1.0,
+      "failure_both": 1.0,
+      "interaction_lift": -0.3774,
+      "joint_samples": 75
+    },
+    {
+      "left": "retrieval",
+      "right": "reasoning",
+      "failure_neither": 0.1208,
+      "failure_left": 0.5152,
+      "failure_right": 0.9695,
+      "failure_both": 0.8684,
+      "interaction_lift": -0.4956,
+      "joint_samples": 76
+    },
+    {
+      "left": "write",
+      "right": "tool",
+      "failure_neither": 0.1264,
+      "failure_left": 0.6535,
+      "failure_right": 1.0,
+      "failure_both": 1.0,
+      "interaction_lift": -0.527,
+      "joint_samples": 48
+    },
+    {
+      "left": "reasoning",
+      "right": "tool",
+      "failure_neither": 0.1239,
+      "failure_left": 0.9333,
+      "failure_right": 1.0,
+      "failure_both": 1.0,
+      "interaction_lift": -0.8095,
+      "joint_samples": 175
+    },
+    {
+      "left": "write",
+      "right": "reasoning",
+      "failure_neither": 0.1209,
+      "failure_left": 0.6923,
+      "failure_right": 1.0,
+      "failure_both": 0.5932,
+      "interaction_lift": -0.9782,
+      "joint_samples": 59
     }
   ],
-  "budget": 1.0,
-  "recommendation_basis": "controlled replay under the synthetic environment",
-  "recommendation": {
-    "checkpoint": "tool",
-    "label": "Verify tool result",
-    "cost_units": 1.0,
-    "predicted_success": 0.7422,
-    "actual_success": 0.7232
-  },
-  "trace_example": {
-    "workflow": "linear",
-    "complexity": 0,
-    "stress": 0.15,
-    "success": false,
-    "steps": [
+  "counterfactual_example": {
+    "trace_id": "test-00003",
+    "single_repairs": [
       {
-        "node": "retrieve_policy",
-        "kind": "retrieval",
-        "parents": [],
-        "parent_failed": false,
-        "probability": 0.073,
-        "failed": false,
-        "repaired": null
+        "repair": "reasoning",
+        "recovers": false
       },
       {
-        "node": "interpret_coverage",
-        "kind": "reasoning",
-        "parents": [
-          "retrieve_policy"
-        ],
-        "parent_failed": false,
-        "probability": 0.0605,
-        "failed": false,
-        "repaired": null
-      },
+        "repair": "tool",
+        "recovers": false
+      }
+    ],
+    "pair_repairs": [
       {
-        "node": "lookup_claim",
-        "kind": "tool",
-        "parents": [
-          "interpret_coverage"
+        "repair": [
+          "reasoning",
+          "tool"
         ],
-        "parent_failed": false,
-        "probability": 0.072,
-        "failed": false,
-        "repaired": null
-      },
-      {
-        "node": "apply_rules",
-        "kind": "reasoning",
-        "parents": [
-          "lookup_claim"
-        ],
-        "parent_failed": false,
-        "probability": 0.0605,
-        "failed": false,
-        "repaired": null
-      },
-      {
-        "node": "record_decision",
-        "kind": "action",
-        "parents": [
-          "apply_rules"
-        ],
-        "parent_failed": false,
-        "probability": 0.0325,
-        "failed": true,
-        "repaired": null
+        "recovers": true
       }
     ]
+  },
+  "trace_example": {
+    "trace_id": "test-00003",
+    "case_id": "CLM-1042",
+    "faults": [
+      "reasoning",
+      "tool"
+    ],
+    "signals": [
+      "reasoning_mismatch",
+      "tool_mismatch"
+    ],
+    "memory": [
+      {
+        "key": "address",
+        "value": "Zurich",
+        "valid_from": 1,
+        "recorded_at": 1,
+        "status": "superseded"
+      },
+      {
+        "key": "coverage",
+        "value": "basic",
+        "valid_from": 1,
+        "recorded_at": 2,
+        "status": "superseded"
+      },
+      {
+        "key": "channel",
+        "value": "phone",
+        "valid_from": 1,
+        "recorded_at": 3,
+        "status": "superseded"
+      },
+      {
+        "key": "address",
+        "value": "Basel",
+        "valid_from": 8,
+        "recorded_at": 9,
+        "status": "active"
+      },
+      {
+        "key": "coverage",
+        "value": "premium",
+        "valid_from": 10,
+        "recorded_at": 11,
+        "status": "active"
+      },
+      {
+        "key": "channel",
+        "value": "email",
+        "valid_from": 12,
+        "recorded_at": 13,
+        "status": "active"
+      }
+    ],
+    "retrieved": {
+      "address": "Basel",
+      "coverage": "premium",
+      "channel": "email"
+    },
+    "proposed_action": {
+      "case_id": "CLM-1042",
+      "decision": "manual_review",
+      "notify": "phone",
+      "address": "Basel"
+    },
+    "expected_action": {
+      "case_id": "CLM-1042",
+      "decision": "approve",
+      "notify": "email",
+      "address": "Basel"
+    },
+    "success": false,
+    "committed_success": true,
+    "risk": 0.99306,
+    "gated": true,
+    "verified": true,
+    "committed_action": {
+      "case_id": "CLM-1042",
+      "decision": "approve",
+      "notify": "email",
+      "address": "Basel"
+    }
   }
 }
