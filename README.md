@@ -1,43 +1,55 @@
-# CascadeLens
+# TRACE-Mem
 
-CascadeLens is a small, reproducible proof-of-concept for a thesis on
-dependency-aware reliability forecasting in multi-step agents.
+TRACE-Mem is an executable reliability layer for persistent AI agents. It
+maps how faults travel from memory writes to irreversible tool actions, finds
+the stages that caused a failed run, and verifies risky actions before they
+are committed.
 
-Most agent evaluations report end-to-end success or isolated component
-accuracy. CascadeLens asks a different question: given a workflow of retrieval,
-reasoning, tool, verification, and action steps, can we predict how errors
-propagate through its topology and decide where one extra verification check
-will help most?
+The included claims workflow is a complete reference implementation. A case
+evolves across sessions: an address changes, coverage is updated, and the
+preferred contact channel changes. TRACE-Mem records those facts in a
+bi-temporal memory, injects controlled faults at five stages, replays failures
+with targeted repairs, learns an interaction-aware risk model, and applies a
+verification gate before the final action.
 
-## What this PoC demonstrates
+## What is implemented
 
-1. A typed workflow DAG for four insurance-like claim-review patterns.
-2. Controlled, privacy-safe fault injection with correlated episode shocks.
-3. A Laplace-smoothed conditional propagation model learned from traces.
-4. Comparison against a naive independence/product baseline.
-5. Budget-aware selection of retrieval or tool-result verification.
-6. A self-contained HTML dashboard for the research walkthrough.
-
-The environment is synthetic by design. Its results demonstrate that the
-method and instrumentation work; they do **not** establish performance on real
-insurance claims or production agents.
+- Append-only, bi-temporal memory with `active`, `superseded`, and `disputed`
+  states.
+- Fault injection at memory write, consolidation, retrieval, reasoning, and
+  tool-action stages.
+- Trace-level signals for write gaps, active-memory conflicts, stale
+  retrievals, inconsistent reasoning, and mutated tool payloads.
+- Counterfactual replay that repairs one stage at a time and records whether
+  the failed action recovers.
+- A causal reliability map that measures pairwise fault interaction lift.
+- An interaction-aware risk model learned from historical traces.
+- A pre-commit risk gate that verifies source events and rebuilds the proposed
+  action when risk exceeds a configurable threshold.
+- An offline HTML operations dashboard plus JSON and CSV exports.
 
 ## Run
 
-Only Python 3.10+ is required; there are no external packages or API keys.
+TRACE-Mem uses only the Python standard library. Python 3.10 or newer is
+required; no API keys or external services are needed.
 
 ```powershell
-python .\cascadelens.py --output-dir .\results
+python .\trace_mem.py --output-dir .\results
 Start-Process .\results\dashboard.html
 ```
 
-Generated files:
+Useful options:
 
-- `dashboard.html` - offline visual demo
-- `results.json` - complete reproducible output
-- `scenario_results.csv` - scenario-level evaluation table
+```powershell
+python .\trace_mem.py --seed 7 --train-runs 5000 --test-runs 1500 --risk-threshold 0.55
+```
 
-The random seed defaults to `42` and can be changed with `--seed`.
+Generated artifacts:
+
+- `dashboard.html`: reliability, intervention, and trace explorer
+- `results.json`: complete machine-readable run output
+- `scenario_results.csv`: per-case operating metrics
+- `reliability_map.csv`: pairwise causal interaction map
 
 ## Test
 
@@ -45,24 +57,19 @@ The random seed defaults to `42` and can be changed with `--seed`.
 python -m unittest discover -s .\tests -v
 ```
 
-## What changes in the six-month thesis
+## Runtime flow
 
-- Replace synthetic nodes with trace adapters for an agent framework or an MCP
-  gateway.
-- Use deterministic end-state evaluators in public tool-agent environments
-  such as tau-bench or AgentDojo, then validate on one stakeholder workflow.
-- Compare the conditional DAG model with independence, calibrated sequence
-  models, SAUP-style uncertainty propagation, and counterfactual replay.
-- Measure calibration (Brier score/ECE), failure recall, reliability-cost
-  Pareto curves, cross-model transfer, and robustness to topology shifts.
-- Release trace schema, fault operators, benchmark tasks, and evaluation code.
+1. The agent stages a tool action instead of immediately committing it.
+2. TRACE-Mem derives reliability signals from the complete memory-to-action
+   trace.
+3. The learned model estimates failure risk, including interactions between
+   signals.
+4. Low-risk actions commit normally. High-risk actions are verified against
+   the source-event adapter, rebuilt, and then committed.
+5. Failed historical traces can be replayed with targeted repairs to produce
+   causal attributions and improve verification policy.
 
-## Suggested 90-second walkthrough
-
-1. Open `results/dashboard.html` and state the problem in one sentence.
-2. Point to the four-stage pipeline: trace, perturb, forecast, intervene.
-3. Compare the blue/cyan/amber bars for branch and long-horizon workflows.
-4. Show that the final failed action is not necessarily the first risky step.
-5. Explain the budget table and the selected checkpoint.
-6. End with the scope note: the PoC validates the research mechanism; the
-   thesis validates generalization on real LLM agents and stakeholder tasks.
+The built-in claims cases contain generated data and serve as a reproducible
+local workload. The runtime classes are domain-independent: another agent can
+provide its own source events, staged action payload, evaluator, and verifier
+without changing the reliability model.
